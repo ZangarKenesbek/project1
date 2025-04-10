@@ -1,5 +1,8 @@
 from django import forms
 import re
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
 from .models import Review
 
 
@@ -37,11 +40,10 @@ class GameFilterForm(forms.Form):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['game', 'rating', 'comment']
+        fields = ["rating", "comment"]
         widgets = {
-            'game': forms.Select(attrs={'class': 'form-control'}),
-            'rating': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 10}),
-            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Enter your review'}),
+            "rating": forms.NumberInput(attrs={"class": "form-control", "min": 1, "max": 10}),
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": "Enter your review"}),
         }
 
     def clean_rating(self):
@@ -49,3 +51,14 @@ class ReviewForm(forms.ModelForm):
         if rating < 1 or rating > 10:
             raise forms.ValidationError("Rating must be between 1 and 10.")
         return rating
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+        }
