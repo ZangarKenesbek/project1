@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex flex-wrap gap-4">
+
+        <div class="card p-3 shadow-sm" style="min-width: 280px; max-width: 350px;">
+            <h4 class="card-title text-primary">👤 Profile</h4>
+            <p class="mb-2"><strong>Username:</strong> {{ request.user.username }}</p>
+            <p class="mb-2"><strong>Name:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+            <p class="mb-2"><strong>Date Joined:</strong> {{ request.user.date_joined|date:"M d, Y" }}</p>
+            <p class="mb-2"><strong>Email:</strong> {{ request.user.email }}</p>
+            <p class="mb-2"><strong>Last Login:</strong> {{ request.user.last_login|date:"M d, Y H:i" }}</p>
+        </div>
+
+        <div class="flex-grow-1">
+            <h2 class="mb-3">🎮 Recently Viewed Games</h2>
+            <div class="list-group">
+                {% for game_id, game_title in request.session.viewed_games %}
+                    <a href="/game/{{ game_id }}" class="list-group-item list-group-item-action">
+                        🎮 {{ game_title }}
+                    </a>
+                <br>
+                {% empty %}
+                    <p class="text-muted">No recently viewed games found.</p>
+                    <a href="{% url 'game_list' %}" class="btn btn-primary mt-2">Explore Games</a>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
