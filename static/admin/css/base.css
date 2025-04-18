@@ -5,8 +5,8 @@
 /* VARIABLE DEFINITIONS */
 html[data-theme="light"],
 :root {
-    --primary: #ca0000;
-    --secondary: #c1007f;
+    --primary: #d800b9;
+    --secondary: #ff0000;
     --accent: #f5dd5d;
     --primary-fg: #fff;
 
